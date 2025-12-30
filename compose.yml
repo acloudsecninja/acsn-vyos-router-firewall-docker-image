@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  vyos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vyos
+    tty: true
+    stdin_open: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    ports:
+      - "22:22"    # SSH port
+      - "80:80"    # HTTP port for web interface
+      - "443:443"   # HTTPS port for secure access
+    volumes:
+      - vyos_config:/config:rw
+    environment:
+      - VYOS_WEB_ENABLE=true  # Environment variable to enable web interface
+
+volumes:
+  vyos_config:
